@@ -1,0 +1,50 @@
+/* Game container and board styles */
+#game-container {
+    position: relative;
+    width: 400px; /* Set to the size of your board image */
+    height: 400px;
+    margin: 0 auto;
+    border: 5px solid #333;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    margin: 20px auto;
+    position: relative;
+}
+
+/* Player markers */
+.player {
+    position: absolute;
+    width: 20px;       /* Width of the player marker */
+    height: 20px;      /* Height of the player marker */
+    border-radius: 50%; /* Circle shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transform: translate(-50%, -50%); /* Center marker on tile */
+}
+
+#player1 {
+    background-color: red; /* Color for Player 1 */
+}
+
+#player2 {
+    background-color: blue; /* Color for Player 2 */
+}
+
+/* Control buttons and input fields */
+#controls {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+}
