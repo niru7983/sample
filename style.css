@@ -32,6 +32,26 @@
     background-color: #e3e3e3;
 }
 
+.ladder-start {
+    background: linear-gradient(to top, #b8e994, #38ada9); /* Green gradient */
+    color: #333;
+    font-weight: bold;
+}
+.ladder-end {
+    background: linear-gradient(to top, #78e08f, #0a3d62); /* Different shade for ladder end */
+}
+
+/* Styles for snakes */
+.snake-start {
+    background: linear-gradient(to bottom, #ff6b6b, #c44569); /* Red gradient */
+    color: #fff;
+    font-weight: bold;
+}
+.snake-end {
+    background: linear-gradient(to bottom, #ee5253, #b33939); /* Different shade for snake end */
+}
+
+
 .player {
     position: absolute;
     width: 30px;
