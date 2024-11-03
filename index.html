@@ -104,7 +104,7 @@
         document.getElementById("game-play").style.display = "block";
         updateTurnInfo();
         createBoard();  // Initialize board
-        //updatePlayerPosition();
+        updatePlayerPosition();
          populateIdentificationTable();
         
     }
@@ -159,7 +159,7 @@
 
         turn++;
         updateTurnInfo();
-       // updatePlayerPosition();
+        updatePlayerPosition();
     }
 
     function checkLadder(point) {
@@ -182,6 +182,23 @@
         document.getElementById("turn-info").innerText = `${turn % 2 === 0 ? p1_name : p2_name}'s turn`;
     }
 
+    function updatePlayerPosition() {
+        const player1 = document.getElementById("player1");
+        const player2 = document.getElementById("player2");
+        
+        const cell1 = document.getElementById("cell-" + pp1);
+        const cell2 = document.getElementById("cell-" + pp2);
+
+        if (cell1) {
+            player1.style.top = cell1.offsetTop + "px";
+            player1.style.left = cell1.offsetLeft + "px";
+        }
+        if (cell2) {
+            player2.style.top = cell2.offsetTop + "px";
+            player2.style.left = cell2.offsetLeft + "px";
+        }
+    }
+
     function quitGame() {
         alert("Quitting the game!");
         resetGame();
@@ -198,7 +215,7 @@
         document.getElementById("dice-result").innerText = "";
         document.getElementById("turn-info").innerText = "";
         createBoard();
-    
+        updatePlayerPosition();
     }
 </script>
 
