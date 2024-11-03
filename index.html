@@ -13,6 +13,20 @@
         #game-info {
             margin-top: 20px;
         }
+        #identification-table {
+            margin-top: 20px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+        #identification-table th, #identification-table td {
+            border: 1px solid #333;
+            padding: 8px;
+        }
+        #identification-table th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +54,20 @@
     <button onclick="rollDice()">Roll Dice</button>
     <button onclick="quitGame()">Quit Game</button>
 </div>
+<h2>Snake and Ladder Identification</h2>
+<table id="identification-table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+    </thead>
+    <tbody id="identification-body">
+        <!-- Rows will be inserted here by JavaScript -->
+    </tbody>
+</table>
+
 
 <script>
     const ladder = {1: 38, 4: 14, 8: 30, 21: 42, 28: 74, 50: 67, 71: 92, 88: 99};
@@ -76,9 +104,30 @@
         document.getElementById("game-play").style.display = "block";
         updateTurnInfo();
         createBoard();  // Initialize board
-        updatePlayerPosition();
+        //updatePlayerPosition();
+         populateIdentificationTable();
+        
+    }
+    function populateIdentificationTable() {
+    const identificationBody = document.getElementById("identification-body");
+    identificationBody.innerHTML = "";
+
+    // Populate ladders
+    for (const start in ladder) {
+        const end = ladder[start];
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>Ladder</td><td>${start}</td><td>${end}</td>`;
+        identificationBody.appendChild(row);
     }
 
+    // Populate snakes
+    for (const start in snake) {
+        const end = snake[start];
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>Snake</td><td>${start}</td><td>${end}</td>`;
+        identificationBody.appendChild(row);
+    }
+}
     function rollDice() {
         let currentPlayer = turn % 2 === 0 ? p1_name : p2_name;
         let dice = Math.floor(Math.random() * 6) + 1;
@@ -110,7 +159,7 @@
 
         turn++;
         updateTurnInfo();
-        updatePlayerPosition();
+       // updatePlayerPosition();
     }
 
     function checkLadder(point) {
@@ -133,23 +182,6 @@
         document.getElementById("turn-info").innerText = `${turn % 2 === 0 ? p1_name : p2_name}'s turn`;
     }
 
-    function updatePlayerPosition() {
-        const player1 = document.getElementById("player1");
-        const player2 = document.getElementById("player2");
-        
-        const cell1 = document.getElementById("cell-" + pp1);
-        const cell2 = document.getElementById("cell-" + pp2);
-
-        if (cell1) {
-            player1.style.top = cell1.offsetTop + "px";
-            player1.style.left = cell1.offsetLeft + "px";
-        }
-        if (cell2) {
-            player2.style.top = cell2.offsetTop + "px";
-            player2.style.left = cell2.offsetLeft + "px";
-        }
-    }
-
     function quitGame() {
         alert("Quitting the game!");
         resetGame();
@@ -166,7 +198,7 @@
         document.getElementById("dice-result").innerText = "";
         document.getElementById("turn-info").innerText = "";
         createBoard();
-        updatePlayerPosition();
+    
     }
 </script>
 
