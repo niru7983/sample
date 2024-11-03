@@ -43,6 +43,14 @@
     const end = 100;
     let p1_name, p2_name, pp1 = 0, pp2 = 0, turn = 0;
 
+    function createBoard() {
+    for (let i = 100; i >= 1; i--) {
+        const square = document.createElement('div');
+        square.className = 'square';
+        square.dataset.index = i;
+        boardElement.appendChild(square);
+        }
+    }    
     function startGame() {
         p1_name = document.getElementById("p1_name").value || "Player 1";
         p2_name = document.getElementById("p2_name").value || "Player 2";
