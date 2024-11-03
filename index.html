@@ -56,6 +56,15 @@
             cell.className = "cell";
             cell.innerText = i;
             cell.id = "cell-" + i;
+            if (ladder[i]) {
+                cell.classList.add("ladder-start");
+            } else if (Object.values(ladder).includes(i)) {
+                cell.classList.add("ladder-end");
+            } else if (snake[i]) {
+                cell.classList.add("snake-start");
+            } else if (Object.values(snake).includes(i)) {
+                cell.classList.add("snake-end");
+            }
             board.appendChild(cell);
         }
     }
