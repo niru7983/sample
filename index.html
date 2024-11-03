@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snakes and Ladders Game</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,7 +20,11 @@
 <h1>Snakes and Ladders</h1>
 <p>Click on "Roll Dice" to play!</p>
 
-<div id="board"></div>
+<div id="game-container">
+    <div id="board"></div>
+    <div id="player1" class="player">1</div>
+    <div id="player2" class="player">2</div>
+</div>
 
 <div id="game-info">
     <p>Enter Player 1 Name: <input type="text" id="p1_name" placeholder="Player 1"></p>
@@ -41,14 +45,29 @@
     const ladder = {1: 38, 4: 14, 8: 30, 21: 42, 28: 74, 50: 67, 71: 92, 88: 99};
     const snake = {32: 10, 34: 6, 48: 26, 62: 18, 88: 89, 95: 56, 97: 78};
     const end = 100;
-    let p1_name, p2_name, pp1 = 0, pp2 = 0, turn = 0;
-    
+    let p1_name, p2_name, pp1 = 1, pp2 = 1, turn = 0;
+
+    // Initialize the board
+    function createBoard() {
+        const board = document.getElementById("board");
+        board.innerHTML = "";
+        for (let i = 100; i > 0; i--) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.innerText = i;
+            cell.id = "cell-" + i;
+            board.appendChild(cell);
+        }
+    }
+
     function startGame() {
         p1_name = document.getElementById("p1_name").value || "Player 1";
         p2_name = document.getElementById("p2_name").value || "Player 2";
         document.getElementById("game-info").style.display = "none";
         document.getElementById("game-play").style.display = "block";
         updateTurnInfo();
+        createBoard();  // Initialize board
+        updatePlayerPosition();
     }
 
     function rollDice() {
@@ -82,6 +101,7 @@
 
         turn++;
         updateTurnInfo();
+        updatePlayerPosition();
     }
 
     function checkLadder(point) {
@@ -104,14 +124,31 @@
         document.getElementById("turn-info").innerText = `${turn % 2 === 0 ? p1_name : p2_name}'s turn`;
     }
 
+    function updatePlayerPosition() {
+        const player1 = document.getElementById("player1");
+        const player2 = document.getElementById("player2");
+        
+        const cell1 = document.getElementById("cell-" + pp1);
+        const cell2 = document.getElementById("cell-" + pp2);
+
+        if (cell1) {
+            player1.style.top = cell1.offsetTop + "px";
+            player1.style.left = cell1.offsetLeft + "px";
+        }
+        if (cell2) {
+            player2.style.top = cell2.offsetTop + "px";
+            player2.style.left = cell2.offsetLeft + "px";
+        }
+    }
+
     function quitGame() {
         alert("Quitting the game!");
         resetGame();
     }
 
     function resetGame() {
-        pp1 = 0;
-        pp2 = 0;
+        pp1 = 1;
+        pp2 = 1;
         turn = 0;
         document.getElementById("game-info").style.display = "block";
         document.getElementById("game-play").style.display = "none";
@@ -119,6 +156,8 @@
         document.getElementById("player2-score").innerText = "";
         document.getElementById("dice-result").innerText = "";
         document.getElementById("turn-info").innerText = "";
+        createBoard();
+        updatePlayerPosition();
     }
 </script>
 
