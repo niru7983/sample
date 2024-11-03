@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snakes and Ladders Game</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #board {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #game-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Snakes and Ladders</h1>
+<p>Click on "Roll Dice" to play!</p>
+
+<img id="board" src="board_image.png" alt="Snakes and Ladders Board" width="400">
+
+<div id="game-info">
+    <p>Enter Player 1 Name: <input type="text" id="p1_name" placeholder="Player 1"></p>
+    <p>Enter Player 2 Name: <input type="text" id="p2_name" placeholder="Player 2"></p>
+    <button onclick="startGame()">Start Game</button>
+</div>
+
+<div id="game-play" style="display: none;">
+    <p id="turn-info"></p>
+    <p id="dice-result"></p>
+    <p id="player1-score"></p>
+    <p id="player2-score"></p>
+    <button onclick="rollDice()">Roll Dice</button>
+    <button onclick="quitGame()">Quit Game</button>
+</div>
+
+<script>
+    const ladder = {1: 38, 4: 14, 8: 30, 21: 42, 28: 74, 50: 67, 71: 92, 88: 99};
+    const snake = {32: 10, 34: 6, 48: 26, 62: 18, 88: 89, 95: 56, 97: 78};
+    const end = 100;
+    let p1_name, p2_name, pp1 = 0, pp2 = 0, turn = 0;
+
+    function startGame() {
+        p1_name = document.getElementById("p1_name").value || "Player 1";
+        p2_name = document.getElementById("p2_name").value || "Player 2";
+        document.getElementById("game-info").style.display = "none";
+        document.getElementById("game-play").style.display = "block";
+        updateTurnInfo();
+    }
+
+    function rollDice() {
+        let currentPlayer = turn % 2 === 0 ? p1_name : p2_name;
+        let dice = Math.floor(Math.random() * 6) + 1;
+        document.getElementById("dice-result").innerText = `${currentPlayer} rolled a ${dice}`;
+
+        if (turn % 2 === 0) {
+            pp1 += dice;
+            pp1 = checkLadder(pp1);
+            pp1 = checkSnake(pp1);
+            if (pp1 > end) pp1 = end;
+            document.getElementById("player1-score").innerText = `${p1_name} Score: ${pp1}`;
+            if (pp1 >= end) {
+                alert(`${p1_name} won!`);
+                resetGame();
+                return;
+            }
+        } else {
+            pp2 += dice;
+            pp2 = checkLadder(pp2);
+            pp2 = checkSnake(pp2);
+            if (pp2 > end) pp2 = end;
+            document.getElementById("player2-score").innerText = `${p2_name} Score: ${pp2}`;
+            if (pp2 >= end) {
+                alert(`${p2_name} won!`);
+                resetGame();
+                return;
+            }
+        }
+
+        turn++;
+        updateTurnInfo();
+    }
+
+    function checkLadder(point) {
+        if (ladder[point]) {
+            alert("Climb up!!");
+            return ladder[point];
+        }
+        return point;
+    }
+
+    function checkSnake(point) {
+        if (snake[point]) {
+            alert("Ouch! Snake bite!!");
+            return snake[point];
+        }
+        return point;
+    }
+
+    function updateTurnInfo() {
+        document.getElementById("turn-info").innerText = `${turn % 2 === 0 ? p1_name : p2_name}'s turn`;
+    }
+
+    function quitGame() {
+        alert("Quitting the game!");
+        resetGame();
+    }
+
+    function resetGame() {
+        pp1 = 0;
+        pp2 = 0;
+        turn = 0;
+        document.getElementById("game-info").style.display = "block";
+        document.getElementById("game-play").style.display = "none";
+        document.getElementById("player1-score").innerText = "";
+        document.getElementById("player2-score").innerText = "";
+        document.getElementById("dice-result").innerText = "";
+        document.getElementById("turn-info").innerText = "";
+    }
+</script>
+
+</body>
+</html>
